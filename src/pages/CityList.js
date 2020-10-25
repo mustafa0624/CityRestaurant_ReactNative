@@ -5,13 +5,14 @@ import {CityItem,SearchBar} from "../components"
 
 
 function CityList(props) {
-
+    const[newCityList,setNewCityList]= useState([])
     const [cityList, setCityList] = useState([])
 
     const fetchCitydData = async () => {
         const { data } = await axios.get("https://opentable.herokuapp.com/api/cities")
         // console.log(data.cities)
         setCityList(data.cities)
+        setNewCityList(data.cities)
     }
 
     useEffect(()=>{
@@ -20,9 +21,15 @@ function CityList(props) {
 
     const renderCities=({ item }) => <CityItem cityName={item}/> 
 
-    // function searchCity(search){
-    //     const filteredCity=
-    // }
+    function searchCity(search){
+        // const newArray=[...cityList]
+        const filteredCity= newCityList.filter(city=>{
+            const text = search.toUpperCase()
+            const cityName=city.toUpperCase()
+            return cityName.indexOf(text) > -1
+        })
+        setCityList(filteredCity)
+    }
 
     
 
@@ -31,7 +38,7 @@ function CityList(props) {
             <View >
                 <SearchBar
                 placeholder="bir sehir arayin..."
-                onSearch={(value)=>console.log(value)}
+                onSearch={(value)=>searchCity(value)}
                 />
                 <FlatList
                     keyExtractor={(_,index)=>index.toString()}
