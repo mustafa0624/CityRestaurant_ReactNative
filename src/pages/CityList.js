@@ -19,7 +19,14 @@ function CityList(props) {
         fetchCitydData()
     },[])
 
-    const renderCities=({ item }) => <CityItem cityName={item}/> 
+    const renderCities=({ item }) =>{
+       return(
+           <CityItem 
+                cityName={item} 
+                onSelect={()=>props.navigation.navigate("Restaurants",{selectedCity:item})} /> 
+
+       ) 
+    } 
 
     function searchCity(search){
         // const newArray=[...cityList]
@@ -37,7 +44,7 @@ function CityList(props) {
         <SafeAreaView>
             <View >
                 <SearchBar
-                placeholder="bir sehir arayin..."
+                placeholder="Search a City..."
                 onSearch={(value)=>searchCity(value)}
                 />
                 <FlatList
