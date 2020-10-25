@@ -6,7 +6,7 @@ function RestaurantList(props) {
     return (
         <SafeAreaView>
             <View >
-                <Text>Home Screenim benim</Text>
+                <Text>Res List</Text>
             </View>
         </SafeAreaView>
     );

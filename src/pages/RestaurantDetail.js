@@ -6,7 +6,7 @@ function RestaurantDetail(props) {
     return (
         <SafeAreaView>
             <View >
-                <Text>Home Screenim benim</Text>
+                <Text>Detail</Text>
             </View>
         </SafeAreaView>
     );
