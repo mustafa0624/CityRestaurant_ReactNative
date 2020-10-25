@@ -3,7 +3,10 @@ import { TouchableOpacity, View, Text, Image, StyleSheet, Dimensions } from 'rea
 
 const RestaurantItem = (props) => {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity 
+            onPress={props.onSelect}
+            style={styles.container}
+        >
             <Image
                 style={styles.image}
                 source={{ uri: props.restaurant.image_url }}

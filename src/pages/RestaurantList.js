@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios"
-import { View, Text, SafeAreaView ,FlatList} from 'react-native';
+import { View, Text, SafeAreaView, FlatList } from 'react-native';
 import { RestaurantItem, SearchBar } from '../components';
 
-let originalList=[]
+let originalList = []
 
 function RestaurantList(props) {
-    const [restaurantList,setRestaurantList] = useState([])
-    const {selectedCity} = props.route.params
-    
+    const [restaurantList, setRestaurantList] = useState([])
+    const { selectedCity } = props.route.params
+
     const fetchRestaurants = () => {
         axios.get(
             'http://opentable.herokuapp.com/api/restaurants',
@@ -19,39 +19,40 @@ function RestaurantList(props) {
             })
             .then(response => {
                 setRestaurantList(response.data.restaurants);
-                originalList=[...response.data.restaurants]
+                originalList = [...response.data.restaurants]
             })
     }
-    useEffect(()=>{
+    useEffect(() => {
         fetchRestaurants()
-    },[])
+    }, [])
 
     const renderRestaurants = ({ item }) => {
         return (
             <RestaurantItem
                 restaurant={item}
+                onSelect={()=>props.navigation.navigate("Details",{selectedRestaurant:item})}
             />
         )
     }
 
 
-    function searchRestaurant(search){
-        const filteredRestaurants= originalList.filter(restaurant=>{
-            const text =search.toUpperCase();
+    function searchRestaurant(search) {
+        const filteredRestaurants = originalList.filter(restaurant => {
+            const text = search.toUpperCase();
             const restaurantName = restaurant.name.toUpperCase();
-            
+
             return restaurantName.indexOf(text) > -1
         })
         setRestaurantList(filteredRestaurants)
     }
 
     return (
-        <SafeAreaView style={{flex:1}} >
-            <View  style={{flex:1}}>
-                <Text style={{fontSize:20,margin:10,fontWeight:"bold"}}>{selectedCity}</Text>
+        <SafeAreaView style={{ flex: 1 }} >
+            <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 20, margin: 10, fontWeight: "bold" }}>{selectedCity}</Text>
                 <SearchBar
-                placeholder="search a restaurant"
-                onSearch = {(value)=> searchRestaurant(value)}
+                    placeholder="search a restaurant"
+                    onSearch={(value) => searchRestaurant(value)}
                 />
                 <FlatList
                     data={restaurantList}
@@ -62,4 +63,4 @@ function RestaurantList(props) {
     );
 }
 
-export {RestaurantList}
+export { RestaurantList }
